@@ -6,19 +6,34 @@ using Emotion API and creating 'visits.csv'.
 @license: MIT
 """
 
+import os
+import time
 import csv
 import json
 import re
 import requests
 import lxml.html
 
-
-def detect_emotions(photo_url):
-    pass
-
-
 POLDNEV_BASE_URL = 'http://poldnev.ru/lksh/id{}'
 STUDENT_IMAGE_REGEX = re.compile(r'href=\\"https?://img-fotki.yandex.ru/get/.*_XXL')
+OCP_API_KEY = os.environ['OCP_API_KEY']
+EMOTION_API_URL = 'https://api.projectoxford.ai/emotion/v1.0/recognize'
+
+
+def detect_emotions(photo_url):
+    # Emotion API limits
+    time.sleep(2)
+    response = requests.post(EMOTION_API_URL, headers={
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': OCP_API_KEY
+    }, data=json.dumps({'url': photo_url}))
+    faces = json.loads(response.text)
+    # If there are few faces, sort it by square of face rectangle
+    faces.sort(
+        key=lambda x: x['faceRectangle']['width'] * x['faceRectangle']['height'],
+        reverse=True
+    )
+    return list(faces[0]['scores'].values())
 
 print('Starting analysing data from poldnev.ru')
 visits_file = open('visits.csv', 'w')
@@ -46,7 +61,7 @@ while True:
         if 'class' not in row.attrib:
             continue
         print(student_id, student_name, visit_date,
-              visit_position, student_photos[photo_num])
+              visit_position, detect_emotions(student_photos[photo_num]))
         photo_num += 1
     student_id += 1
 
