@@ -42,7 +42,7 @@ print('Starting analysing data from poldnev.ru')
 visits_file = open('visits.csv', 'a')
 visits_writer = csv.writer(visits_file)
 # First student id
-student_id = 628
+student_id = 1
 while student_id <= LAST_STUDENT_ID:
     student_page = requests.get(POLDNEV_BASE_URL.format(student_id)).text
     student_html = lxml.html.document_fromstring(student_page)
