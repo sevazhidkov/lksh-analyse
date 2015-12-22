@@ -56,3 +56,7 @@ A1.преп-стажер                                      0.999998
 C'.преп                                             0.999842
 завуч, C1.py.преп                                   0.999253
 ```
+## Emotions by years
+Happiness by years:
+![bar](http://i.imgur.com/ZKyPWGQ.png)
+![line](http://i.imgur.com/PbdEiKy.png)
