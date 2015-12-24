@@ -60,3 +60,9 @@ C'.преп                                             0.999842
 Happiness by years:
 ![bar](http://i.imgur.com/ZKyPWGQ.png)
 ![line](http://i.imgur.com/PbdEiKy.png)
+## Emotions by people
+Viktor Matyuhin's happiness:
+```
+d.loc[d['id'] == 1][['date', 'happiness']].plot(kind='line')
+```
+![victor matyuhin](http://i.imgur.com/6LPrux8.png)
